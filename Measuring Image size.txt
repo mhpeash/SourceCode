@@ -1,0 +1,18 @@
+using System.Drawing;
+
+...
+
+private float GetWidthOfString(string str)
+{
+    Bitmap objBitmap = default(Bitmap);
+    Graphics objGraphics = default(Graphics);
+
+    objBitmap = new Bitmap(500, 200);
+    objGraphics = Graphics.FromImage(objBitmap);
+
+    SizeF stringSize = objGraphics.MeasureString(str, new Font("Arial", 12));
+
+    objBitmap.Dispose();
+    objGraphics.Dispose();
+    return stringSize.Width;
+}
