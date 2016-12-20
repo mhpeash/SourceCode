@@ -23,3 +23,14 @@ ________________________________________________________________________________
             FormsAuthentication.SignOut();
             return View("Login");
      }
+
+
+
+Add this method to global asax page 
+
+ protected void Application_BeginRequest()
+        {
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetExpires(DateTime.UtcNow.AddSeconds(-1));
+            Response.Cache.SetNoStore();
+        }
