@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+</head>
+<body>
+
+<div id="geo-wrapper" width="600" height="400"></div>
+<span id="geo-error"></span>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+<script>
+$(function(){
+    if(navigator.geolocation)
+    {
+        navigator.geolocation.getCurrentPosition(show_map,show_map_error);
+    }
+    else
+    {
+        $("#geo-error").html('Your browser does not support geolocation.');
+    }
+});
+
+function show_map(loc){
+
+var lat = loc.coords.latitude;
+var lon = loc.coords.longitude;
+
+var lat_lon = new google.maps.LatLng(lat,lon);
+
+mapholder = document.getElementById('geo-wrapper')
+    mapholder.style.height = '250px';
+    mapholder.style.width = '500px';
+
+var mapOptions = {
+    center:lat_lon,
+    zoom:14,
+    mapTypeId:google.maps.MapTypeId.ROADMAP,
+    mapTypeControl:false,
+    navigationControlOptions:{style:google.maps.NavigationControlStyle.SMALL}
+}
+
+var map = new google.maps.Map(document.getElementById("geo-wrapper"), mapOptions);
+var marker = new google.maps.Marker({position:lat_lon, map:map, title:"You are here.!"});
+
+}
+
+function show_map_error(error){
+    var x = document.getElementById("geo-error");
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            x.innerHTML = "User denied the request for Geolocation."
+            break;
+        case error.POSITION_UNAVAILABLE:
+            x.innerHTML = "Location information is unavailable."
+            break;
+        case error.TIMEOUT:
+            x.innerHTML = "The request to get user location timed out."
+            break;
+        case error.UNKNOWN_ERROR:
+            x.innerHTML = "An unknown error occurred."
+            break;
+        }
+}
+
+</script>
+</body>
+</html>
